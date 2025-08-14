@@ -5,76 +5,93 @@ export const handler = ({ inputs, mechanic, sketch }) => {
   const radius = ((altura / 2) * radiusPercentage) / 100;
   const angle = Math.random() * Math.PI * 2;
 
+  // tipografias
+
+  let WorkFaAADA;
+  let WorkFaAAAB;
+
+  sketch.preload = () => {
+  // WorkFaAADA = sketch.loadFont("/assets/fonts/WorkFaAAD-A.otf");
+  };
+
   sketch.setup = () => {
     sketch.createCanvas(ancho, altura);
   };
 
   sketch.draw = () => {
-    sketch.background("#F4F4F4");
+    sketch.background("#E7E4D8");
     sketch.noStroke();
+    sketch.fill("#000000ff");
 
-    sketch.translate(...center);
-    sketch.rotate(angle);
+    if (inputs.mostrarGrilla) {
+      sketch.stroke(200);
+      sketch.strokeWeight(1);
 
-    sketch.fill(color1);
-    sketch.arc(0, 0, 2 * radius, 2 * radius, -sketch.PI, 0);
-    sketch.fill(color2);
-    sketch.arc(0, 0, 2 * radius, 2 * radius, 0, sketch.PI);
+      const margen = 62;
+      const cols = 20;
+      const rows = 20;
+      const gridWidth = inputs.ancho - margen * 2;
+      const gridHeight = inputs.altura - margen * 2;
 
-    sketch.rotate(-angle);
-    sketch.fill("#000000");
-    sketch.textAlign(sketch.CENTER, sketch.BOTTOM);
+      // Líneas verticales
+      for (let i = 0; i <= cols; i++) {
+        let x = margen + (gridWidth / cols) * i;
+        sketch.line(x, margen, x, inputs.altura - margen);
+      }
+      // Líneas horizontales
+      for (let j = 0; j <= rows; j++) {
+        let y = margen + (gridHeight / rows) * j;
+        sketch.line(margen, y, inputs.ancho - margen, y);
+      }
+      sketch.noStroke();
+    }
+
+    // Configura el tamaño y estilo del texto
+    sketch.textSize(120);
     sketch.textStyle(sketch.BOLD);
-    sketch.textSize(altura / 10);
-    sketch.text(text, 0, altura / 2 - altura / 20);
+    sketch.textFont("Courier New");
+
+    sketch.text(inputs.Titulo, 20, 20 + sketch.textAscent());
 
     mechanic.done();
   };
 };
 
 export const inputs = {
-    ancho: {
+  ancho: {
     type: "number",
-    default: 1350
+    default: 1080,
   },
   altura: {
     type: "number",
-    default: 1080
+    default: 1350,
   },
-  text: {
+  Titulo: {
     type: "text",
-    default: "mechanic"
+    default: "Título",
   },
-  color1: {
-    type: "color",
-    model: "hex",
-    default: "#E94225"
+  Subtitulo: {
+    type: "text",
+    default: "Subtitulo",
   },
-  color2: {
-    type: "color",
-    model: "hex",
-    default: "#002EBB"
+  Bajada: {
+    type: "text",
+    default: "Bajada",
   },
-  radiusPercentage: {
-    type: "number",
-    default: 40,
-    min: 0,
-    max: 100,
-    slider: true
-  }
+  mostrarGrilla: {
+    type: "boolean",
+    default: false,
+    label: "Mostrar grilla",
+  },
 };
 
 export const presets = {
-  post: {
-    altura: 1080,
-    ancho: 1350
+  default: {
+    width: 1080,
+    height: 1350,
   },
-  story: {
-    altura: 1080,
-    ancho: 1200
-  }
 };
 
 export const settings = {
-  engine: require("@mechanic-design/engine-p5")
+  engine: require("@mechanic-design/engine-p5"),
 };
