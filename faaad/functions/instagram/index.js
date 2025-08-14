@@ -10,9 +10,7 @@ export const handler = ({ inputs, mechanic, sketch }) => {
   let WorkFaAADA;
   let WorkFaAAAB;
 
-  sketch.preload = () => {
-  // WorkFaAADA = sketch.loadFont("/assets/fonts/WorkFaAAD-A.otf");
-  };
+  sketch.preload = () => {};
 
   sketch.setup = () => {
     sketch.createCanvas(ancho, altura);
@@ -25,33 +23,43 @@ export const handler = ({ inputs, mechanic, sketch }) => {
 
     if (inputs.mostrarGrilla) {
       sketch.stroke(200);
-      sketch.strokeWeight(1);
+      sketch.strokeWeight(2);
 
       const margen = 62;
       const cols = 20;
-      const rows = 20;
+      const rows = 60;
       const gridWidth = inputs.ancho - margen * 2;
       const gridHeight = inputs.altura - margen * 2;
 
-      // Líneas verticales
+      // Líneas verticales (cruzan todo el canvas)
       for (let i = 0; i <= cols; i++) {
         let x = margen + (gridWidth / cols) * i;
-        sketch.line(x, margen, x, inputs.altura - margen);
+        sketch.line(x, 0, x, inputs.altura); // Cambiado para que crucen todo
       }
-      // Líneas horizontales
+      // Líneas horizontales (cruzan todo el canvas)
       for (let j = 0; j <= rows; j++) {
         let y = margen + (gridHeight / rows) * j;
-        sketch.line(margen, y, inputs.ancho - margen, y);
+        sketch.line(0, y, inputs.ancho, y); // Cambiado para que crucen todo
       }
+
+      // Resalta el margen de la grilla
+      sketch.stroke("#393939ff"); // Color rojo para resaltar
+      sketch.strokeWeight(4);
+      sketch.noFill();
+      sketch.rect(margen, margen, gridWidth, gridHeight);
+
       sketch.noStroke();
     }
 
     // Configura el tamaño y estilo del texto
     sketch.textSize(120);
     sketch.textStyle(sketch.BOLD);
-    sketch.textFont("Courier New");
+    sketch.textFont("Helvetica");
+    sketch.textAlign(sketch.LEFT, sketch.TOP); // <-- Alinea arriba a la izquierda
 
-    sketch.text(inputs.Titulo, 20, 20 + sketch.textAscent());
+    sketch.fill("#000000ff");
+    const margen = 62;
+    sketch.text(inputs.Titulo, margen + 10, margen + 26);
 
     mechanic.done();
   };
