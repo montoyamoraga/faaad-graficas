@@ -1,7 +1,14 @@
 export const handler = ({ inputs, mechanic, sketch }) => {
-  const { ancho, altura } = inputs;
-  let loadedImage = null;
-  let lastImageSrc = null;
+  const { imagen, ancho, altura } = inputs;
+
+  let img;
+
+  // Carga la imagen antes de setup si existe
+  sketch.preload = () => {
+    if (imagen && imagen.src) {
+      img = sketch.loadImage(imagen.src);
+    }
+  };
 
   sketch.setup = () => {
     sketch.createCanvas(ancho, altura);
@@ -12,23 +19,13 @@ export const handler = ({ inputs, mechanic, sketch }) => {
     sketch.noStroke();
     sketch.fill("#000000ff");
 
-    // Carga la imagen si es nueva
-    if (
-      inputs.Imagen &&
-      inputs.Imagen.src &&
-      inputs.Imagen.src !== lastImageSrc
-    ) {
-      loadedImage = sketch.loadImage(inputs.Imagen.src, () => {
-        sketch.redraw();
-      });
-      lastImageSrc = inputs.Imagen.src;
-    }
-
-    // Dibuja la imagen centrada en el canvas con su tamaño original
-    if (loadedImage && loadedImage.width && loadedImage.height) {
-      const x = (sketch.width - loadedImage.width) / 2;
-      const y = (sketch.height - loadedImage.height) / 2;
-      sketch.image(loadedImage, x, y);
+    // Dibuja la imagen centrada si existe
+    if (img) {
+      const imgW = img.width;
+      const imgH = img.height;
+      const centerX = (sketch.width - imgW) / 2;
+      const centerY = (sketch.height - imgH) / 2;
+      sketch.image(img, centerX, centerY);
     }
 
     if (inputs.mostrarGrilla) {
@@ -133,15 +130,19 @@ export const inputs = {
   },
   Imagen: {
     type: "image",
-    label: "Imagen",
+    label: "imagen",
     description: "Arrastra una imagen aquí",
   },
 };
 
 export const presets = {
-  default: {
+  post: {
     width: 1080,
     height: 1350,
+  },
+  story: {
+    width: 1080,
+    height: 1920,
   },
 };
 
