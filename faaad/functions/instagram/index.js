@@ -1,12 +1,12 @@
 export const handler = ({ inputs, mechanic, sketch }) => {
-  const { Imagen, ancho, altura } = inputs;
+  const { imagen, ancho, altura } = inputs;
 
   let img;
 
   // Carga la imagen antes de setup si existe
   sketch.preload = () => {
-    if (Imagen && Imagen.src) {
-      img = sketch.loadImage(Imagen.src);
+    if (imagen && imagen.src) {
+      img = sketch.loadImage(imagen.src);
     }
   };
 
@@ -130,7 +130,7 @@ export const inputs = {
   },
   Imagen: {
     type: "image",
-    label: "Imagen",
+    label: "imagen",
     description: "Arrastra una imagen aquí",
   },
 };
