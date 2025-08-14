@@ -1,17 +1,26 @@
 export const handler = ({ inputs, mechanic, sketch }) => {
-  const { imagen, ancho, altura } = inputs;
+  const { imagenInput, ancho, altura } = inputs;
 
   let img;
+  let imgGraphic;
+
+  const cargarImagen = () => {
+    imgGraphic = sketch.createGraphics(img.width, img.height);
+    imgGraphic.image(img, 0, 0);
+  };
 
   // Carga la imagen antes de setup si existe
   sketch.preload = () => {
-    if (imagen && imagen.src) {
-      img = sketch.loadImage(imagen.src);
+    if (imagenInput) {
+      img = sketch.loadImage(URL.createObjectURL(imagenInput));
     }
   };
 
   sketch.setup = () => {
     sketch.createCanvas(ancho, altura);
+    if (img) {
+      cargarImagen();
+    }
   };
 
   sketch.draw = () => {
@@ -128,7 +137,7 @@ export const inputs = {
     default: false,
     label: "Mostrar grilla",
   },
-  Imagen: {
+  imagenInput: {
     type: "image",
     label: "imagen",
     description: "Arrastra una imagen aquí",
@@ -148,4 +157,5 @@ export const presets = {
 
 export const settings = {
   engine: require("@mechanic-design/engine-p5"),
+  hideScaleToFit: true,
 };
