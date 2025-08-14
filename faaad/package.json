@@ -8,10 +8,11 @@
     "new": "mechanic new function"
   },
   "devDependencies": {
-    "@mechanic-design/core": "^2.0.0-beta.12",
-    "@mechanic-design/cli": "^2.0.0-beta.12"
+    "@mechanic-design/cli": "^2.0.0-beta.12",
+    "@mechanic-design/core": "^2.0.0-beta.12"
   },
   "dependencies": {
+    "@disenoudp/faaad-colores": "^0.0.1",
     "@mechanic-design/engine-p5": "^2.0.0-beta.12"
   }
 }
