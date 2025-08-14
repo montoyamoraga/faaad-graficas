@@ -6,7 +6,66 @@ export const handler = ({ inputs, mechanic, sketch }) => {
 
   const cargarImagen = () => {
     imgGraphic = sketch.createGraphics(img.width, img.height);
-    imgGraphic.image(img, 0, 0);
+    
+  };
+
+  const escalarImagenFondo = () => {
+    // Dibuja la imagen centrada si existe
+    if (img) {
+      const imgW = img.width;
+      const imgH = img.height;
+      const centerX = (sketch.width - imgW) / 2;
+      const centerY = (sketch.height - imgH) / 2;
+
+      // hay 4 casos
+      // anchoImagen mayor que anchoLienzo
+      // altoImagen mayor que altoLienzo
+      if (imgW > sketch.width && imgH > sketch.height) {
+        sketch.image(img, -imgW/2, -imgH/2, imgW, imgH);
+      }
+      // anchoImagen mayor que anchoLienzo
+      else if (imgW > sketch.width) {
+        sketch.image(
+          img,
+          -imgW/2,
+          0,
+          imgW * sketch.height / imgH,
+          sketch.height
+        );
+        // alturaImagen mayor que alturaLienzo
+      } else if (imgH > sketch.height) {
+        sketch.image(
+          img,
+          0,
+          -imgH/2,
+          sketch.width,
+          imgH * sketch.width / imgW,
+        );
+      } else {
+        // imagen cabe en el lienzo 
+        // calculamos las proporciones entre anchoImagen y anchoLienzo
+        // y tambien entre alturaImagen y alturaLienzo
+        // la proporcion define en que sentido estiramos la imagen
+        const wRatio = imgW / sketch.width;
+        const hRatio = imgH / sketch.height;
+        if (wRatio > hRatio) {
+          sketch.image(
+            img,
+            -imgW/2,
+            0,
+            imgW * sketch.height / imgH,
+            sketch.height);
+        } else {
+          sketch.image(
+            img,
+            0,
+            -imgH/2,
+            sketch.width,
+            imgH * sketch.width / imgW
+          );
+        }
+      }
+    }
   };
 
   // Carga la imagen antes de setup si existe
@@ -28,14 +87,9 @@ export const handler = ({ inputs, mechanic, sketch }) => {
     sketch.noStroke();
     sketch.fill("#000000ff");
 
-    // Dibuja la imagen centrada si existe
-    if (img) {
-      const imgW = img.width;
-      const imgH = img.height;
-      const centerX = (sketch.width - imgW) / 2;
-      const centerY = (sketch.height - imgH) / 2;
-      sketch.image(img, centerX, centerY);
-    }
+    escalarImagenFondo();
+
+
 
     if (inputs.mostrarGrilla) {
       sketch.stroke(200);
