@@ -1,16 +1,7 @@
 export const handler = ({ inputs, mechanic, sketch }) => {
-  const { ancho, altura, text, color1, color2, radiusPercentage } = inputs;
-
-  const center = [ancho / 2, altura / 2];
-  const radius = ((altura / 2) * radiusPercentage) / 100;
-  const angle = Math.random() * Math.PI * 2;
-
-  // tipografias
-
-  let WorkFaAADA;
-  let WorkFaAAAB;
-
-  sketch.preload = () => {};
+  const { ancho, altura } = inputs;
+  let loadedImage = null;
+  let lastImageSrc = null;
 
   sketch.setup = () => {
     sketch.createCanvas(ancho, altura);
@@ -20,6 +11,25 @@ export const handler = ({ inputs, mechanic, sketch }) => {
     sketch.background("#dbdbdbff");
     sketch.noStroke();
     sketch.fill("#000000ff");
+
+    // Carga la imagen si es nueva
+    if (
+      inputs.Imagen &&
+      inputs.Imagen.src &&
+      inputs.Imagen.src !== lastImageSrc
+    ) {
+      loadedImage = sketch.loadImage(inputs.Imagen.src, () => {
+        sketch.redraw();
+      });
+      lastImageSrc = inputs.Imagen.src;
+    }
+
+    // Dibuja la imagen centrada en el canvas con su tamaño original
+    if (loadedImage && loadedImage.width && loadedImage.height) {
+      const x = (sketch.width - loadedImage.width) / 2;
+      const y = (sketch.height - loadedImage.height) / 2;
+      sketch.image(loadedImage, x, y);
+    }
 
     if (inputs.mostrarGrilla) {
       sketch.stroke(200);
@@ -34,16 +44,16 @@ export const handler = ({ inputs, mechanic, sketch }) => {
       // Líneas verticales (cruzan todo el canvas)
       for (let i = 0; i <= cols; i++) {
         let x = margen + (gridWidth / cols) * i;
-        sketch.line(x, 0, x, inputs.altura); // Cambiado para que crucen todo
+        sketch.line(x, 0, x, inputs.altura);
       }
       // Líneas horizontales (cruzan todo el canvas)
       for (let j = 0; j <= rows; j++) {
         let y = margen + (gridHeight / rows) * j;
-        sketch.line(0, y, inputs.ancho, y); // Cambiado para que crucen todo
+        sketch.line(0, y, inputs.ancho, y);
       }
 
       // Resalta el margen de la grilla
-      sketch.stroke("#393939ff"); // Color rojo para resaltar
+      sketch.stroke("#393939ff");
       sketch.strokeWeight(4);
       sketch.noFill();
       sketch.rect(margen, margen, gridWidth, gridHeight);
@@ -55,7 +65,7 @@ export const handler = ({ inputs, mechanic, sketch }) => {
     sketch.textSize(210);
     sketch.textStyle(sketch.BOLD);
     sketch.textFont("Helvetica");
-    sketch.textAlign(sketch.LEFT, sketch.TOP); // <-- Alinea arriba a la izquierda
+    sketch.textAlign(sketch.LEFT, sketch.TOP);
 
     sketch.fill("#000000ff");
     const margen = 62;
@@ -69,27 +79,25 @@ export const handler = ({ inputs, mechanic, sketch }) => {
     sketch.textAlign(sketch.LEFT, sketch.TOP);
     sketch.fill("#000000ff");
 
-    // Calcula la posición en el margen derecho superior
     const gridWidth = inputs.ancho - margen * 2;
-    const x = margen + gridWidth; // margen derecho de la grilla
-    const y = margen + 35; // margen superior de la grilla
+    const x = margen + gridWidth;
+    const y = margen + 35;
 
     sketch.translate(x, y);
-    sketch.rotate(Math.PI / 2); // 90 grados en radianes
+    sketch.rotate(Math.PI / 2);
     sketch.text(inputs.Escuela, 0, 0);
     sketch.pop();
 
-    // Dibuja el texto "InfoExtra" debajo de la grilla, alineado a la izquierda
-    sketch.textSize(40); // Ajusta el tamaño si lo necesitas
+    // Dibuja el texto "InfoExtra" dentro del margen inferior izquierdo de la grilla
+    sketch.textSize(40);
     sketch.textStyle(sketch.NORMAL);
     sketch.textFont("Helvetica");
     sketch.textAlign(sketch.LEFT, sketch.TOP);
     sketch.fill("#000000ff");
 
-    // Posición: debajo del margen inferior izquierdo de la grilla
     const gridHeight = inputs.altura - margen * 2;
     const infoX = margen;
-    const infoY = margen + gridHeight - 120; // 64 es el tamaño del texto
+    const infoY = margen + gridHeight - 40; // 40 es el tamaño del texto
 
     sketch.text(inputs.InfoExtra, infoX, infoY);
 
@@ -122,6 +130,11 @@ export const inputs = {
     type: "boolean",
     default: false,
     label: "Mostrar grilla",
+  },
+  Imagen: {
+    type: "image",
+    label: "Imagen",
+    description: "Arrastra una imagen aquí",
   },
 };
 
