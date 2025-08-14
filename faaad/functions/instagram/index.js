@@ -1,12 +1,12 @@
 export const handler = ({ inputs, mechanic, sketch }) => {
-  const { width, height, text, color1, color2, radiusPercentage } = inputs;
+  const { ancho, altura, text, color1, color2, radiusPercentage } = inputs;
 
-  const center = [width / 2, height / 2];
-  const radius = ((height / 2) * radiusPercentage) / 100;
+  const center = [ancho / 2, altura / 2];
+  const radius = ((altura / 2) * radiusPercentage) / 100;
   const angle = Math.random() * Math.PI * 2;
 
   sketch.setup = () => {
-    sketch.createCanvas(width, height);
+    sketch.createCanvas(ancho, altura);
   };
 
   sketch.draw = () => {
@@ -25,21 +25,21 @@ export const handler = ({ inputs, mechanic, sketch }) => {
     sketch.fill("#000000");
     sketch.textAlign(sketch.CENTER, sketch.BOTTOM);
     sketch.textStyle(sketch.BOLD);
-    sketch.textSize(height / 10);
-    sketch.text(text, 0, height / 2 - height / 20);
+    sketch.textSize(altura / 10);
+    sketch.text(text, 0, altura / 2 - altura / 20);
 
     mechanic.done();
   };
 };
 
 export const inputs = {
-  width: {
+    ancho: {
     type: "number",
-    default: 400
+    default: 1350
   },
-  height: {
+  altura: {
     type: "number",
-    default: 300
+    default: 1080
   },
   text: {
     type: "text",
@@ -65,13 +65,13 @@ export const inputs = {
 };
 
 export const presets = {
-  medium: {
-    width: 800,
-    height: 600
+  post: {
+    altura: 1080,
+    ancho: 1350
   },
-  large: {
-    width: 1600,
-    height: 1200
+  story: {
+    altura: 1080,
+    ancho: 1200
   }
 };
 
