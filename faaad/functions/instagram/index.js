@@ -17,7 +17,7 @@ export const handler = ({ inputs, mechanic, sketch }) => {
   };
 
   sketch.draw = () => {
-    sketch.background("#E7E4D8");
+    sketch.background("#dbdbdbff");
     sketch.noStroke();
     sketch.fill("#000000ff");
 
@@ -52,7 +52,7 @@ export const handler = ({ inputs, mechanic, sketch }) => {
     }
 
     // Configura el tamaño y estilo del texto
-    sketch.textSize(120);
+    sketch.textSize(210);
     sketch.textStyle(sketch.BOLD);
     sketch.textFont("Helvetica");
     sketch.textAlign(sketch.LEFT, sketch.TOP); // <-- Alinea arriba a la izquierda
@@ -60,6 +60,38 @@ export const handler = ({ inputs, mechanic, sketch }) => {
     sketch.fill("#000000ff");
     const margen = 62;
     sketch.text(inputs.Titulo, margen + 10, margen + 26);
+
+    // Dibuja el texto "Escuela" rotado 90 grados en el margen derecho superior de la grilla
+    sketch.push();
+    sketch.textSize(48);
+    sketch.textStyle(sketch.NORMAL);
+    sketch.textFont("Helvetica");
+    sketch.textAlign(sketch.LEFT, sketch.TOP);
+    sketch.fill("#000000ff");
+
+    // Calcula la posición en el margen derecho superior
+    const gridWidth = inputs.ancho - margen * 2;
+    const x = margen + gridWidth; // margen derecho de la grilla
+    const y = margen + 35; // margen superior de la grilla
+
+    sketch.translate(x, y);
+    sketch.rotate(Math.PI / 2); // 90 grados en radianes
+    sketch.text(inputs.Escuela, 0, 0);
+    sketch.pop();
+
+    // Dibuja el texto "InfoExtra" debajo de la grilla, alineado a la izquierda
+    sketch.textSize(40); // Ajusta el tamaño si lo necesitas
+    sketch.textStyle(sketch.NORMAL);
+    sketch.textFont("Helvetica");
+    sketch.textAlign(sketch.LEFT, sketch.TOP);
+    sketch.fill("#000000ff");
+
+    // Posición: debajo del margen inferior izquierdo de la grilla
+    const gridHeight = inputs.altura - margen * 2;
+    const infoX = margen;
+    const infoY = margen + gridHeight - 120; // 64 es el tamaño del texto
+
+    sketch.text(inputs.InfoExtra, infoX, infoY);
 
     mechanic.done();
   };
@@ -78,11 +110,11 @@ export const inputs = {
     type: "text",
     default: "Título",
   },
-  Subtitulo: {
+  Escuela: {
     type: "text",
-    default: "Subtitulo",
+    default: "Escuela de Diseño",
   },
-  Bajada: {
+  InfoExtra: {
     type: "text",
     default: "Bajada",
   },
