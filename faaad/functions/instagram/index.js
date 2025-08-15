@@ -184,7 +184,12 @@ export const inputs = {
   },
   Escuela: {
     type: "text",
+    label: "Escuela",
     default: "Escuela de Diseño",
+    options: ["Escuela de Arquitectura",
+      "Escuela de Arte",
+      "Escuela de Diseño"
+    ]
   },
   InfoExtra: {
     type: "text",
