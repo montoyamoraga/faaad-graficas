@@ -12,7 +12,7 @@
     "@mechanic-design/core": "^2.0.0-beta.12"
   },
   "dependencies": {
-    "@disenoudp/faaad-colores": "^0.0.1",
+    "@disenoudp/faaad-colores": "^0.0.6",
     "@mechanic-design/engine-p5": "^2.0.0-beta.12"
   }
 }
