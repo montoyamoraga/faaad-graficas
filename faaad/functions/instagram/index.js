@@ -1,8 +1,12 @@
 export const handler = ({ inputs, mechanic, sketch }) => {
   const { imagenInput, ancho, altura } = inputs;
 
+  // importar modulo de biblioteca colores
+  const {colores} = require("@disenoudp/faaad-colores");
+
+
   let img;
-  let imgGraphic;
+  // let imgGraphic;
 
   const cargarImagen = () => {
     imgGraphic = sketch.createGraphics(img.width, img.height);
@@ -83,9 +87,9 @@ export const handler = ({ inputs, mechanic, sketch }) => {
   };
 
   sketch.draw = () => {
-    sketch.background("#dbdbdbff");
+    sketch.background(colores.udpCrema);
     sketch.noStroke();
-    sketch.fill("#000000ff");
+    sketch.fill(colores.udpNegro);
 
     escalarImagenFondo();
 
@@ -127,7 +131,7 @@ export const handler = ({ inputs, mechanic, sketch }) => {
     sketch.textFont("Helvetica");
     sketch.textAlign(sketch.LEFT, sketch.TOP);
 
-    sketch.fill("#000000ff");
+    sketch.fill(colores.udpNegro)
     const margen = 62;
     sketch.text(inputs.Titulo, margen + 10, margen + 26);
 
@@ -137,7 +141,7 @@ export const handler = ({ inputs, mechanic, sketch }) => {
     sketch.textStyle(sketch.NORMAL);
     sketch.textFont("Helvetica");
     sketch.textAlign(sketch.LEFT, sketch.TOP);
-    sketch.fill("#000000ff");
+    sketch.fill(colores.udpNegro);
 
     const gridWidth = inputs.ancho - margen * 2;
     const x = margen + gridWidth;
@@ -153,7 +157,7 @@ export const handler = ({ inputs, mechanic, sketch }) => {
     sketch.textStyle(sketch.NORMAL);
     sketch.textFont("Helvetica");
     sketch.textAlign(sketch.LEFT, sketch.TOP);
-    sketch.fill("#000000ff");
+    sketch.fill(colores.udpNegro);
 
     const gridHeight = inputs.altura - margen * 2;
     const infoX = margen;
@@ -180,7 +184,12 @@ export const inputs = {
   },
   Escuela: {
     type: "text",
+    label: "Escuela",
     default: "Escuela de Diseño",
+    options: ["Escuela de Arquitectura",
+      "Escuela de Arte",
+      "Escuela de Diseño"
+    ]
   },
   InfoExtra: {
     type: "text",
@@ -211,5 +220,6 @@ export const presets = {
 
 export const settings = {
   engine: require("@mechanic-design/engine-p5"),
+  colores: require("@disenoudp/faaad-colores"),
   hideScaleToFit: true,
 };
