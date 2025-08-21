@@ -167,8 +167,6 @@ export const handler = ({ inputs, mechanic, sketch }) => {
     // 40 es el tamaño del texto
     const infoY = margen + gridHeight - 40; 
 
-    sketch.text(inputs.InfoExtra, infoX, infoY);
-
     mechanic.done();
   };
 };
@@ -185,20 +183,6 @@ export const inputs = {
   Titulo: {
     type: "text",
     default: "Título",
-  },
-  Escuela: {
-    type: "text",
-    label: "Escuela",
-    default: "Escuela de Diseño",
-    options: [
-      "Escuela de Arquitectura",
-      "Escuela de Arte",
-      "Escuela de Diseño",
-    ],
-  },
-  InfoExtra: {
-    type: "text",
-    default: "Bajada",
   },
   mostrarGrilla: {
     type: "boolean",
