@@ -48,7 +48,7 @@ jobs:
             echo "ERROR: ./dist was not created by the build."
             exit 1
           fi
-        working-directory: ./faaadt
+        working-directory: ./faaad
 
       - name: List build output
         run: ls -la ./dist
