@@ -2,15 +2,13 @@ export const handler = ({ inputs, mechanic, sketch }) => {
   const { imagenInput, ancho, altura } = inputs;
 
   // importar modulo de biblioteca colores
-  const {colores} = require("@disenoudp/faaad-colores");
-
+  const { colores } = require("@disenoudp/faaad-colores");
 
   let img;
   // let imgGraphic;
 
   const cargarImagen = () => {
     imgGraphic = sketch.createGraphics(img.width, img.height);
-    
   };
 
   const escalarImagenFondo = () => {
@@ -25,15 +23,15 @@ export const handler = ({ inputs, mechanic, sketch }) => {
       // anchoImagen mayor que anchoLienzo
       // altoImagen mayor que altoLienzo
       if (imgW > sketch.width && imgH > sketch.height) {
-        sketch.image(img, -imgW/2, -imgH/2, imgW, imgH);
+        sketch.image(img, -imgW / 2, -imgH / 2, imgW, imgH);
       }
       // anchoImagen mayor que anchoLienzo
       else if (imgW > sketch.width) {
         sketch.image(
           img,
-          -imgW/2,
+          -imgW / 2,
           0,
-          imgW * sketch.height / imgH,
+          (imgW * sketch.height) / imgH,
           sketch.height
         );
         // alturaImagen mayor que alturaLienzo
@@ -41,12 +39,12 @@ export const handler = ({ inputs, mechanic, sketch }) => {
         sketch.image(
           img,
           0,
-          -imgH/2,
+          -imgH / 2,
           sketch.width,
-          imgH * sketch.width / imgW,
+          (imgH * sketch.width) / imgW
         );
       } else {
-        // imagen cabe en el lienzo 
+        // imagen cabe en el lienzo
         // calculamos las proporciones entre anchoImagen y anchoLienzo
         // y tambien entre alturaImagen y alturaLienzo
         // la proporcion define en que sentido estiramos la imagen
@@ -55,17 +53,18 @@ export const handler = ({ inputs, mechanic, sketch }) => {
         if (wRatio > hRatio) {
           sketch.image(
             img,
-            -imgW/2,
+            -imgW / 2,
             0,
-            imgW * sketch.height / imgH,
-            sketch.height);
+            (imgW * sketch.height) / imgH,
+            sketch.height
+          );
         } else {
           sketch.image(
             img,
             0,
-            -imgH/2,
+            -imgH / 2,
             sketch.width,
-            imgH * sketch.width / imgW
+            (imgH * sketch.width) / imgW
           );
         }
       }
@@ -93,7 +92,12 @@ export const handler = ({ inputs, mechanic, sketch }) => {
 
     escalarImagenFondo();
 
+    sketch.background("#dbdbdbff");
+    sketch.noStroke();
+    sketch.fill(colores.faadOscuroRojo); // Usa el color de la paleta
+    sketch.rect(0, 0, inputs.ancho, 55); // Barra superior
 
+    sketch.fill("#000000ff");
 
     if (inputs.mostrarGrilla) {
       sketch.stroke(200);
@@ -131,7 +135,7 @@ export const handler = ({ inputs, mechanic, sketch }) => {
     sketch.textFont("Helvetica");
     sketch.textAlign(sketch.LEFT, sketch.TOP);
 
-    sketch.fill(colores.udpNegro)
+    sketch.fill(colores.udpNegro);
     const margen = 62;
     sketch.text(inputs.Titulo, margen + 10, margen + 26);
 
@@ -186,10 +190,11 @@ export const inputs = {
     type: "text",
     label: "Escuela",
     default: "Escuela de Diseño",
-    options: ["Escuela de Arquitectura",
+    options: [
+      "Escuela de Arquitectura",
       "Escuela de Arte",
-      "Escuela de Diseño"
-    ]
+      "Escuela de Diseño",
+    ],
   },
   InfoExtra: {
     type: "text",
