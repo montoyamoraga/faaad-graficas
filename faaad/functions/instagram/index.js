@@ -92,10 +92,6 @@ export const handler = ({ inputs, mechanic, sketch }) => {
 
     escalarImagenFondo();
 
-    sketch.noStroke();
-    sketch.fill(colores.faadOscuroRojo); // Usa el rojo de faaad-colores
-    sketch.rect(0, 0, inputs.ancho, 55); // Barra superior
-
     if (inputs.mostrarGrilla) {
       sketch.stroke(200);
       sketch.strokeWeight(2);
@@ -136,35 +132,13 @@ export const handler = ({ inputs, mechanic, sketch }) => {
     const margen = 62;
     sketch.text(inputs.Titulo, margen + 10, margen + 26);
 
-    // Dibuja el texto "Escuela" rotado 90 grados en el margen derecho superior de la grilla
-    sketch.push();
-    sketch.textSize(48);
-    sketch.textStyle(sketch.NORMAL);
-    sketch.textFont("Helvetica");
-    sketch.textAlign(sketch.LEFT, sketch.TOP);
-    sketch.fill(colores.udpNegro);
-
     const gridWidth = inputs.ancho - margen * 2;
     const x = margen + gridWidth;
     const y = margen + 35;
 
-    sketch.translate(x, y);
-    sketch.rotate(Math.PI / 2);
-    sketch.text(inputs.Escuela, 0, 0);
-    sketch.pop();
-
-    // Dibuja el texto "InfoExtra" dentro del margen inferior izquierdo de la grilla
-    sketch.textSize(40);
-    sketch.textStyle(sketch.NORMAL);
-    sketch.textFont("Helvetica");
-    sketch.textAlign(sketch.LEFT, sketch.TOP);
-    sketch.fill(colores.udpNegro);
-
     const gridHeight = inputs.altura - margen * 2;
     const infoX = margen;
     const infoY = margen + gridHeight - 40; // 40 es el tamaño del texto
-
-    sketch.text(inputs.InfoExtra, infoX, infoY);
 
     mechanic.done();
   };
@@ -182,20 +156,6 @@ export const inputs = {
   Titulo: {
     type: "text",
     default: "Título",
-  },
-  Escuela: {
-    type: "text",
-    label: "Escuela",
-    default: "Escuela de Diseño",
-    options: [
-      "Escuela de Arquitectura",
-      "Escuela de Arte",
-      "Escuela de Diseño",
-    ],
-  },
-  InfoExtra: {
-    type: "text",
-    default: "Bajada",
   },
   mostrarGrilla: {
     type: "boolean",
