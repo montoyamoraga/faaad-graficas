@@ -1,0 +1,67 @@
+name: Deploy Mechanic static site to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Cache node modules
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('my-project/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install
+        working-directory: ./my-project
+
+      - name: Clean possible lockfiles
+        run: rm -f mechanic.json.lock
+        working-directory: ./my-project
+
+      - name: Build Mechanic static site
+        run: npm run build
+        working-directory: ./my-project
+
+      - name: Check if dist exists
+        run: |
+          if [ ! -d "./dist" ]; then
+            echo "ERROR: ./dist was not created by the build."
+            exit 1
+          fi
+        working-directory: ./my-project
+
+      - name: List build output
+        run: ls -la ./dist
+        working-directory: ./my-project
+
+      - name: Add .nojekyll
+        run: touch ./my-project/dist/.nojekyll
+
+      - run: npm install
+        working-directory: ./my-project
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./my-project/dist
