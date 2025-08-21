@@ -32,15 +32,15 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-        working-directory: ./my-project
+        working-directory: ./faaad
 
       - name: Clean possible lockfiles
         run: rm -f mechanic.json.lock
-        working-directory: ./my-project
+        working-directory: ./faaad
 
       - name: Build Mechanic static site
         run: npm run build
-        working-directory: ./my-project
+        working-directory: ./faaad
 
       - name: Check if dist exists
         run: |
@@ -48,20 +48,20 @@ jobs:
             echo "ERROR: ./dist was not created by the build."
             exit 1
           fi
-        working-directory: ./my-project
+        working-directory: ./faaadt
 
       - name: List build output
         run: ls -la ./dist
-        working-directory: ./my-project
+        working-directory: ./faaad
 
       - name: Add .nojekyll
         run: touch ./my-project/dist/.nojekyll
 
       - run: npm install
-        working-directory: ./my-project
+        working-directory: ./faaad
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./my-project/dist
+          publish_dir: ./faaad/dist
