@@ -21,7 +21,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('my-project/package-lock.json') }}
+          key: ${{ runner.os }}-node-${{ hashFiles('faaad/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
 
@@ -55,7 +55,7 @@ jobs:
         working-directory: ./faaad
 
       - name: Add .nojekyll
-        run: touch ./my-project/dist/.nojekyll
+        run: touch ./faaad/dist/.nojekyll
 
       - run: npm install
         working-directory: ./faaad
