@@ -5,7 +5,7 @@ export const handler = ({ inputs, mechanic, sketch }) => {
   const { colores } = require("@disenoudp/faaad-colores");
 
   let img;
-  // let imgGraphic;
+  let imgGraphic;
 
   const cargarImagen = () => {
     imgGraphic = sketch.createGraphics(img.width, img.height);
@@ -92,12 +92,9 @@ export const handler = ({ inputs, mechanic, sketch }) => {
 
     escalarImagenFondo();
 
-    sketch.background("#dbdbdbff");
     sketch.noStroke();
-    sketch.fill(colores.faadOscuroRojo); // Usa el color de la paleta
+    sketch.fill(colores.faadOscuroRojo); // Usa el rojo de faaad-colores
     sketch.rect(0, 0, inputs.ancho, 55); // Barra superior
-
-    sketch.fill("#000000ff");
 
     if (inputs.mostrarGrilla) {
       sketch.stroke(200);
